@@ -5,6 +5,23 @@ import { createClient } from '@/lib/supabase/client'
 import { Building2, Mail, Phone, User, Users, MessageSquare, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
 
+// Moved OUTSIDE the component to prevent re-creation on every render (which caused input focus loss)
+function Field({ icon, label, id, ...props }: { icon: React.ReactNode; label: string; id: string } & React.InputHTMLAttributes<HTMLInputElement>) {
+  return (
+    <div className="space-y-1.5">
+      <label htmlFor={id} className="text-sm font-medium text-slate-200">{label}</label>
+      <div className="relative">
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">{icon}</span>
+        <input
+          id={id}
+          className="w-full h-11 pl-10 pr-4 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all"
+          {...props}
+        />
+      </div>
+    </div>
+  )
+}
+
 export default function RegisterSchoolPage() {
   const supabase = createClient()
   const [loading, setLoading] = useState(false)
@@ -65,20 +82,6 @@ export default function RegisterSchoolPage() {
       </div>
     )
   }
-
-  const Field = ({ icon, label, id, ...props }: { icon: React.ReactNode; label: string; id: string } & React.InputHTMLAttributes<HTMLInputElement>) => (
-    <div className="space-y-1.5">
-      <label htmlFor={id} className="text-sm font-medium text-slate-200">{label}</label>
-      <div className="relative">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">{icon}</span>
-        <input
-          id={id}
-          className="w-full h-11 pl-10 pr-4 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all"
-          {...props}
-        />
-      </div>
-    </div>
-  )
 
   return (
     <div className="w-full max-w-lg">

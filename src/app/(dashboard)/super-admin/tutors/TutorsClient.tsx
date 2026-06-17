@@ -149,7 +149,7 @@ export function TutorsClient({
             ) : (
               tutors.map((tutor) => {
                 const ta = tutorAssignments(tutor)
-                const uniqueSchools = [...new Set(ta.map(a => a.schools.name))]
+                const uniqueSchools = Array.from(new Set(ta.map(a => a.schools.name)))
                 return (
                   <TableRow key={tutor.id}>
                     <TableTd>

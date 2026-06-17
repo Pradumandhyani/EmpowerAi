@@ -17,6 +17,7 @@ export interface School {
 
 export interface User {
   id: string
+  
   school_id: string | null
   name: string
   email: string

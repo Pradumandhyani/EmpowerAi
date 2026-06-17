@@ -24,7 +24,7 @@ export function StudentsClient({ students: initialStudents, schoolId }: { studen
   const [search, setSearch] = useState('')
   const [filterClass, setFilterClass] = useState('all')
 
-  const uniqueClasses = [...new Set(students.map(s => s.class_grade))].sort()
+  const uniqueClasses = Array.from(new Set(students.map(s => s.class_grade))).sort()
 
   const filtered = students.filter(s => {
     const matchSearch = s.users.name.toLowerCase().includes(search.toLowerCase()) ||
