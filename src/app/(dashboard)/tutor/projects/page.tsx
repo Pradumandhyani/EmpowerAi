@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { DashboardShell } from '@/components/layout/DashboardShell'
 import { ProjectsClient } from './ProjectsClient'
 import type { Metadata } from 'next'
@@ -27,7 +27,8 @@ export default async function ProjectsPage() {
   // Get pending submissions where marks_obtained is null
   let pendingSubmissions: any[] = []
   if (projects && projects.length > 0) {
-    const { data } = await supabase
+    const serviceSupabase = await createServiceClient()
+    const { data } = await serviceSupabase
       .from('submissions')
       .select('*, students(id, class_grade, section, users(name, email)), projects(id, title, max_marks, schools(name))')
       .in('project_id', projects.map(p => p.id))

@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { DashboardShell } from '@/components/layout/DashboardShell'
 import { ProjectDetailClient } from './ProjectDetailClient'
 import type { Metadata } from 'next'
@@ -25,8 +25,11 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
   if (!project) redirect('/tutor/projects')
 
+  // Use the service client to bypass RLS restrictions on joining public.users
+  const serviceSupabase = await createServiceClient()
+
   // Get all students for this project's school/grade/section
-  let studentsQuery = supabase
+  let studentsQuery = serviceSupabase
     .from('students')
     .select('id, class_grade, section, users!inner(name, email)')
     .eq('school_id', project.school_id)

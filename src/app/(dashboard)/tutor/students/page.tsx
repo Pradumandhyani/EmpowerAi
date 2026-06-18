@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { DashboardShell } from '@/components/layout/DashboardShell'
 import { TutorStudentsClient } from './TutorStudentsClient'
 import type { Metadata } from 'next'
@@ -17,8 +17,11 @@ export default async function TutorStudentsPage() {
   const { data: tutor } = await supabase.from('tutors').select('id').eq('user_id', user.id).single()
   if (!tutor) redirect('/login')
 
-  // Fetch tutor assignments to figure out schools and classes
-  const { data: assignments } = await supabase
+  // Use the service client to bypass RLS restrictions on public.users table joining
+  const serviceSupabase = await createServiceClient()
+
+  // Fetch tutor assignments
+  const { data: assignments } = await serviceSupabase
     .from('tutor_assignments')
     .select('*, schools(id, name)')
     .eq('tutor_id', tutor.id)
@@ -28,8 +31,8 @@ export default async function TutorStudentsPage() {
 
   let students: any[] = []
   if (schoolIds.length > 0 && grades.length > 0) {
-    // Fetch all students for the tutor's assigned schools
-    const { data: rawStudents } = await supabase
+    // Fetch all students for the tutor's assigned schools with user details
+    const { data: rawStudents } = await serviceSupabase
       .from('students')
       .select('id, school_id, class_grade, section, roll_number, users(name, email, phone), schools(name)')
       .in('school_id', schoolIds)

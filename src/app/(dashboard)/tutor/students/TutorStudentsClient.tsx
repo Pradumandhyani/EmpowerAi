@@ -27,8 +27,8 @@ export function TutorStudentsClient({ students, assignments }: any) {
 
   // Filter roster
   const filtered = processedStudents.filter((item: any) => {
-    const matchesSearch = item.users.name.toLowerCase().includes(search.toLowerCase()) || 
-                          item.users.email.toLowerCase().includes(search.toLowerCase())
+    const matchesSearch = (item.users?.name || '').toLowerCase().includes(search.toLowerCase()) || 
+                          (item.users?.email || '').toLowerCase().includes(search.toLowerCase())
     const matchesSchool = selectedSchool ? item.school_id === selectedSchool : true
     const matchesGrade = selectedGrade ? item.class_grade === selectedGrade : true
     return matchesSearch && matchesSchool && matchesGrade
@@ -102,10 +102,10 @@ export function TutorStudentsClient({ students, assignments }: any) {
                 <TableRow key={row.id}>
                   <TableTd>
                     <div className="flex items-center gap-3">
-                      <Avatar name={row.users.name} size="md" />
+                      <Avatar name={row.users?.name || 'Student'} size="md" />
                       <div>
-                        <p className="font-semibold text-slate-900">{row.users.name}</p>
-                        <p className="text-xs text-slate-500">{row.users.email}</p>
+                        <p className="font-semibold text-slate-900">{row.users?.name || 'Unknown'}</p>
+                        <p className="text-xs text-slate-500">{row.users?.email || 'N/A'}</p>
                       </div>
                     </div>
                   </TableTd>
@@ -128,7 +128,7 @@ export function TutorStudentsClient({ students, assignments }: any) {
                     </div>
                   </TableTd>
                   <TableTd>
-                    <span className="text-slate-600 text-sm font-medium">{row.users.phone || '—'}</span>
+                    <span className="text-slate-600 text-sm font-medium">{row.users?.phone || '—'}</span>
                   </TableTd>
                 </TableRow>
               ))
