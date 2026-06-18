@@ -18,6 +18,7 @@ const navLinks = {
   tutor: [
     { name: 'Schedule', href: '/tutor', icon: LayoutDashboard },
     { name: 'Projects', href: '/tutor/projects', icon: BookOpen },
+    { name: 'My Students', href: '/tutor/students', icon: Users },
   ],
   student: [
     { name: 'Dashboard', href: '/student', icon: LayoutDashboard },

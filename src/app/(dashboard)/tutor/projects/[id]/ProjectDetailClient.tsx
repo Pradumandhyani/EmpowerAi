@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { PageHeader, Badge, Button, Table, TableHead, TableBody, TableRow, TableTh, TableTd, Dialog, FormField, Input, Textarea, toast, Avatar } from '@/components/ui'
-import { ChevronLeft, FileText, CheckCircle2, AlertCircle, Clock } from 'lucide-react'
+import { ChevronLeft, FileText, CheckCircle2, AlertCircle, Clock, Link as LinkIcon } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
 
 export function ProjectDetailClient({ project, students, submissions: initialSubmissions }: any) {
@@ -201,11 +201,11 @@ export function ProjectDetailClient({ project, students, submissions: initialSub
             <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
               <p className="text-sm font-semibold text-slate-900 mb-2">Student's Work</p>
               {gradeOpen.file_url ? (
-                <a href={gradeOpen.file_url} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-indigo-600 hover:underline mb-3">
-                  <FileText size={16} /> View Submitted File
+                <a href={gradeOpen.file_url} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-indigo-600 hover:underline mb-3 font-medium break-all">
+                  <LinkIcon size={16} className="shrink-0" /> Open Project Link
                 </a>
               ) : (
-                <p className="text-sm text-slate-500 mb-3 italic">No file attached</p>
+                <p className="text-sm text-slate-500 mb-3 italic">No link submitted</p>
               )}
               {gradeOpen.remarks && (
                 <div>

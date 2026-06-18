@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { PageHeader, Badge, Button, Textarea, toast, Card, CardContent, CardHeader, CardTitle } from '@/components/ui'
+import { PageHeader, Badge, Button, Input, Textarea, toast, Card, CardContent, CardHeader, CardTitle } from '@/components/ui'
 import { ChevronLeft, FileUp, CheckCircle2, AlertCircle, Clock, Link as LinkIcon, Download } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
 
@@ -11,41 +11,21 @@ export function StudentProjectDetailClient({ project, submission: initialSubmiss
   const supabase = createClient()
   const [submission, setSubmission] = useState(initialSubmission)
   const [loading, setLoading] = useState(false)
-  const [file, setFile] = useState<File | null>(null)
+  const [projectLink, setProjectLink] = useState(initialSubmission?.file_url || '')
   const [remarks, setRemarks] = useState(initialSubmission?.remarks || '')
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0])
-    }
-  }
-
   const handleSubmit = async () => {
-    setLoading(true)
-    
-    let fileUrl = submission?.file_url
-    
-    if (file) {
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${studentId}_${project.id}_${Date.now()}.${fileExt}`
-      const filePath = `${schoolId}/${fileName}`
-      
-      const { error: uploadError } = await supabase.storage
-        .from('submissions')
-        .upload(filePath, file)
-        
-      if (uploadError) {
-        toast(`File upload failed: ${uploadError.message}`, 'error')
-        setLoading(false)
-        return
-      }
-      
-      const { data: { publicUrl } } = supabase.storage
-        .from('submissions')
-        .getPublicUrl(filePath)
-        
-      fileUrl = publicUrl
+    if (!projectLink.trim()) {
+      toast('Please enter a project link', 'error')
+      return
     }
+
+    if (!/^https?:\/\/\S+/.test(projectLink.trim())) {
+      toast('Please enter a valid link starting with http:// or https://', 'error')
+      return
+    }
+
+    setLoading(true)
 
     const { data, error } = await supabase
       .from('submissions')
@@ -54,7 +34,7 @@ export function StudentProjectDetailClient({ project, submission: initialSubmiss
         project_id: project.id,
         student_id: studentId,
         school_id: schoolId,
-        file_url: fileUrl,
+        file_url: projectLink.trim(),
         remarks: remarks,
         submitted_at: new Date().toISOString(),
       }, { onConflict: 'project_id,student_id' })
@@ -145,33 +125,32 @@ export function StudentProjectDetailClient({ project, submission: initialSubmiss
         <Card className="border-indigo-100 shadow-sm">
           <CardHeader className="bg-slate-50/50 border-b border-slate-100 pb-4">
             <CardTitle className="text-lg flex items-center gap-2">
-              <FileUp className="text-indigo-500" size={20} />
+              <LinkIcon className="text-indigo-500" size={20} />
               {submission ? 'Update Submission' : 'Submit Your Work'}
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-6 space-y-6">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Upload File</label>
-              <div className="border-2 border-dashed border-slate-200 rounded-xl p-6 hover:bg-slate-50 transition-colors">
-                <input
-                  type="file"
-                  id="file-upload"
-                  className="hidden"
-                  onChange={handleFileChange}
+              <label className="block text-sm font-medium text-slate-700 mb-2">Project Link</label>
+              <div className="relative rounded-lg shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                  <LinkIcon size={16} />
+                </div>
+                <Input
+                  type="url"
+                  placeholder="https://github.com/username/project or https://drive.google.com/..."
+                  value={projectLink}
+                  onChange={(e) => setProjectLink(e.target.value)}
+                  className="pl-10"
                 />
-                <label htmlFor="file-upload" className="cursor-pointer flex flex-col items-center">
-                  <div className="h-10 w-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center mb-3">
-                    <FileUp size={20} />
-                  </div>
-                  <p className="text-sm font-medium text-slate-900 mb-1">
-                    {file ? file.name : 'Click to select a file'}
-                  </p>
-                  <p className="text-xs text-slate-500">PDF, Word, or Image files up to 10MB</p>
-                </label>
               </div>
-              {submission?.file_url && !file && (
+              <p className="text-xs text-slate-400 mt-1">Please provide the public link to your project repository or deployment.</p>
+              {submission?.file_url && (
                 <div className="mt-3 flex items-center gap-2 text-sm text-indigo-600 bg-indigo-50 py-2 px-3 rounded-lg border border-indigo-100">
-                  <LinkIcon size={14} /> Current file attached
+                  <LinkIcon size={14} /> Submitted Link:&nbsp;
+                  <a href={submission.file_url} target="_blank" rel="noreferrer" className="underline font-medium hover:text-indigo-800 break-all">
+                    {submission.file_url}
+                  </a>
                 </div>
               )}
             </div>
@@ -187,7 +166,7 @@ export function StudentProjectDetailClient({ project, submission: initialSubmiss
             </div>
 
             <div className="flex justify-end pt-2">
-              <Button onClick={handleSubmit} loading={loading} disabled={!file && !submission?.file_url} className="px-8">
+              <Button onClick={handleSubmit} loading={loading} disabled={!projectLink.trim()} className="px-8">
                 {submission ? 'Update Submission' : 'Submit Project'}
               </Button>
             </div>

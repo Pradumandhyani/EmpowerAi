@@ -24,9 +24,25 @@ export default async function ProjectsPage() {
     supabase.from('tutor_assignments').select('*, schools(id, name)').eq('tutor_id', tutor?.id)
   ])
 
+  // Get pending submissions where marks_obtained is null
+  let pendingSubmissions: any[] = []
+  if (projects && projects.length > 0) {
+    const { data } = await supabase
+      .from('submissions')
+      .select('*, students(id, class_grade, section, users(name, email)), projects(id, title, max_marks, schools(name))')
+      .in('project_id', projects.map(p => p.id))
+      .is('marks_obtained', null)
+    pendingSubmissions = data ?? []
+  }
+
   return (
     <DashboardShell role="tutor" userName={profile.name} pageTitle="Manage Projects">
-      <ProjectsClient projects={projects ?? []} assignments={assignments ?? []} tutorId={tutor?.id} />
+      <ProjectsClient 
+        projects={projects ?? []} 
+        assignments={assignments ?? []} 
+        tutorId={tutor?.id} 
+        pendingSubmissions={pendingSubmissions} 
+      />
     </DashboardShell>
   )
 }
