@@ -4,6 +4,7 @@ import { DashboardShell } from '@/components/layout/DashboardShell'
 import { StatCard } from '@/components/ui'
 import { School, Users, UserCircle, CheckCircle2 } from 'lucide-react'
 import type { Metadata } from 'next'
+import { RecentInquiries } from './RecentInquiries'
 
 export const metadata: Metadata = { title: 'Super Admin — Overview' }
 
@@ -87,31 +88,7 @@ export default async function SuperAdminPage() {
           </div>
 
           {/* Recent inquiries */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
-            <div className="px-6 py-4 border-b border-slate-100">
-              <h2 className="font-semibold text-slate-900">New School Inquiries</h2>
-            </div>
-            <div className="divide-y divide-slate-100">
-              {!recentInquiries || recentInquiries.length === 0 ? (
-                <div className="p-6 text-center text-slate-400 text-sm">No new inquiries</div>
-              ) : (
-                recentInquiries.map((inq) => (
-                  <div key={inq.id} className="px-6 py-4 flex items-start gap-3">
-                    <div className="h-8 w-8 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold flex items-center justify-center flex-shrink-0">
-                      {inq.contact_name.charAt(0).toUpperCase()}
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-sm font-medium text-slate-900 truncate">{inq.school_name}</p>
-                      <p className="text-xs text-slate-500">{inq.contact_name} · {inq.email}</p>
-                    </div>
-                    <span className="ml-auto text-xs text-slate-400 whitespace-nowrap">
-                      {new Date(inq.created_at).toLocaleDateString('en-IN')}
-                    </span>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
+          <RecentInquiries inquiries={(recentInquiries as any) || []} />
         </div>
       </div>
     </DashboardShell>
