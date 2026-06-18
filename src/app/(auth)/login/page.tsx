@@ -24,8 +24,6 @@ export default function LoginPage() {
 
     const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password })
 
-    console.log(data);
-    console.log(authError);
     if (authError) {
       setError(authError.message)
       setLoading(false)
@@ -33,6 +31,13 @@ export default function LoginPage() {
     }
 
     if (data.user) {
+      // Check if this is a first-time login that requires a password change
+      const mustChange = data.user.user_metadata?.must_change_password === true
+      if (mustChange) {
+        router.push('/change-password')
+        return
+      }
+
       const { data: profile } = await supabase
         .from('users')
         .select('role')

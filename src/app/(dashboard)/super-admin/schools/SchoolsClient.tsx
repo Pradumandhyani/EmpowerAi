@@ -31,6 +31,7 @@ export function SchoolsClient({ schools: initialSchools, initialFilter }: { scho
   const [editSchool, setEditSchool] = useState<School | null>(null)
   const [addOpen, setAddOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [approvingId, setApprovingId] = useState<string | null>(null)
 
   const [form, setForm] = useState({
     name: '', address: '', contact_email: '',
@@ -46,12 +47,25 @@ export function SchoolsClient({ schools: initialSchools, initialFilter }: { scho
   })
 
   const handleApprove = async (id: string) => {
-    const { error } = await supabase.from('schools').update({ status: 'approved' }).eq('id', id)
-    if (!error) {
-      setSchools((prev) => prev.map((s) => s.id === id ? { ...s, status: 'approved' } : s))
-      toast('School approved successfully', 'success')
-    } else {
-      toast(error.message, 'error')
+    setApprovingId(id)
+    try {
+      const res = await fetch('/api/admin/approve-school', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ schoolId: id }),
+      })
+      const result = await res.json()
+
+      if (!res.ok) {
+        toast(result.error || 'Failed to approve school', 'error')
+      } else {
+        setSchools((prev) => prev.map((s) => s.id === id ? { ...s, status: 'approved' } : s))
+        toast('School approved! Credentials sent to the school email.', 'success')
+      }
+    } catch {
+      toast('Network error. Please try again.', 'error')
+    } finally {
+      setApprovingId(null)
     }
   }
 
@@ -200,7 +214,7 @@ export function SchoolsClient({ schools: initialSchools, initialFilter }: { scho
                     <TableTd>
                       <div className="flex items-center gap-2">
                         {school.status === 'pending' && (
-                          <Button size="sm" onClick={() => handleApprove(school.id)}>
+                          <Button size="sm" loading={approvingId === school.id} onClick={() => handleApprove(school.id)}>
                             <CheckCircle size={14} /> Approve
                           </Button>
                         )}

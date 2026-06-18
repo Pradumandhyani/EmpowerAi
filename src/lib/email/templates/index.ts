@@ -40,3 +40,39 @@ export function GradePostedEmail({ studentName, projectTitle, marksObtained, max
     </div>
   `
 }
+
+export function SchoolApprovedEmail({ contactName, schoolName, email, tempPassword }: any) {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+  return `
+    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
+      <div style="background: linear-gradient(135deg, #4f46e5, #7c3aed); padding: 30px 20px; border-radius: 12px 12px 0 0; text-align: center;">
+        <h1 style="color: white; margin: 0; font-size: 24px;">🎉 Your School Has Been Approved!</h1>
+      </div>
+      <div style="padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 12px 12px;">
+        <p style="color: #374151; font-size: 16px;">Hello <strong>${contactName}</strong>,</p>
+        <p style="color: #374151;">Congratulations! <strong>${schoolName}</strong> has been approved on the EduConnect platform. Your admin account is now ready.</p>
+
+        <div style="background-color: #f3f4f6; border-left: 4px solid #4f46e5; padding: 20px; border-radius: 0 8px 8px 0; margin: 24px 0;">
+          <p style="margin: 0 0 10px; color: #374151; font-weight: 600;">🔐 Your Login Credentials</p>
+          <p style="margin: 4px 0; color: #374151;"><strong>Email:</strong> ${email}</p>
+          <p style="margin: 4px 0; color: #374151;"><strong>Temporary Password:</strong> <span style="font-family: monospace; background: #e5e7eb; padding: 2px 8px; border-radius: 4px; font-size: 15px;">${tempPassword}</span></p>
+        </div>
+
+        <div style="background-color: #fef3c7; border: 1px solid #fcd34d; padding: 14px 18px; border-radius: 8px; margin: 20px 0;">
+          <p style="margin: 0; color: #92400e; font-size: 14px;">⚠️ <strong>Important:</strong> You will be prompted to set a new password on your first login. Please keep these credentials secure and do not share them.</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 28px;">
+          <a href="${appUrl}/login" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
+            Login to EduConnect →
+          </a>
+        </div>
+
+        <p style="color: #9ca3af; font-size: 13px; margin-top: 28px; text-align: center;">
+          If you did not request this, please ignore this email or contact our support team.
+        </p>
+      </div>
+    </div>
+  `
+}
+

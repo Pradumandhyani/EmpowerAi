@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
 import { Building2, Mail, Phone, User, Users, MessageSquare, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
 
@@ -23,7 +22,6 @@ function Field({ icon, label, id, ...props }: { icon: React.ReactNode; label: st
 }
 
 export default function RegisterSchoolPage() {
-  const supabase = createClient()
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
@@ -42,22 +40,22 @@ export default function RegisterSchoolPage() {
     setLoading(true)
     setError('')
 
-    const { error: dbError } = await supabase.from('school_inquiries').insert({
-      school_name: form.school_name,
-      contact_name: form.contact_name,
-      email: form.email,
-      phone: form.phone || null,
-      student_count: form.student_count ? parseInt(form.student_count) : null,
-      message: form.message || null,
+    const res = await fetch('/api/register-school', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
     })
 
-    if (dbError) {
-      setError(dbError.message)
+    const result = await res.json()
+
+    if (!res.ok) {
+      setError(result.error || 'Something went wrong. Please try again.')
     } else {
       setSubmitted(true)
     }
     setLoading(false)
   }
+
 
   if (submitted) {
     return (
