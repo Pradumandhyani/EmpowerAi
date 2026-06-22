@@ -174,7 +174,7 @@ export function ProjectDetailClient({ project, students, submissions: initialSub
                             submission_id: row.submission.id,
                             student: { name: row.student.users.name, email: row.student.users.email },
                             file_url: row.submission.file_url,
-                            remarks: row.submission.remarks,
+                            remarks: row.submission.notes,
                             marks: row.submission.marks_obtained ?? '',
                             feedback: row.submission.feedback ?? ''
                           })

@@ -33,9 +33,8 @@ export function StudentProjectDetailClient({ project, submission: initialSubmiss
         id: submission?.id || undefined,
         project_id: project.id,
         student_id: studentId,
-        school_id: schoolId,
         file_url: projectLink.trim(),
-        remarks: remarks,
+        notes: remarks,
         submitted_at: new Date().toISOString(),
       }, { onConflict: 'project_id,student_id' })
       .select()
@@ -90,7 +89,7 @@ export function StudentProjectDetailClient({ project, submission: initialSubmiss
       </div>
 
       {/* Grading Results */}
-      {submission?.marks_obtained !== null && submission !== undefined && (
+      {submission !== null && submission !== undefined && submission?.marks_obtained !== null && (
         <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl border border-emerald-100 shadow-sm p-6 lg:p-8 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 opacity-10">
             <CheckCircle2 size={120} className="text-emerald-500" />
@@ -103,10 +102,10 @@ export function StudentProjectDetailClient({ project, submission: initialSubmiss
             <div className="md:col-span-1 bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-emerald-100/50 text-center">
               <p className="text-sm font-semibold text-emerald-800 uppercase tracking-wider mb-2">Marks Obtained</p>
               <p className="text-4xl font-extrabold text-emerald-600">
-                {submission.marks_obtained} <span className="text-lg text-emerald-400 font-medium">/ {project.max_marks}</span>
+                {submission?.marks_obtained} <span className="text-lg text-emerald-400 font-medium">/ {project.max_marks}</span>
               </p>
               <p className="text-sm font-medium text-emerald-600 mt-2 bg-emerald-100/50 py-1 px-3 rounded-full inline-block">
-                {Math.round((submission.marks_obtained / project.max_marks) * 100)}%
+                {submission?.marks_obtained != null ? Math.round((submission.marks_obtained / project.max_marks) * 100) : 0}%
               </p>
             </div>
             

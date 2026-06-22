@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { DashboardShell } from '@/components/layout/DashboardShell'
 import { StudentProjectDetailClient } from './StudentProjectDetailClient'
 import type { Metadata } from 'next'
@@ -14,19 +14,21 @@ export default async function StudentProjectDetailPage({ params }: { params: Pro
   const { data: profile } = await supabase.from('users').select('name, role').eq('id', user.id).single()
   if (profile?.role !== 'student') redirect('/login')
 
-  const { data: student } = await supabase.from('students').select('id, schools(name)').eq('user_id', user.id).single()
+  const { data: student } = await supabase.from('students').select('id, school_id, class_grade, schools(name)').eq('user_id', user.id).single()
   if (!student) redirect('/login')
 
   const { id } = await params
 
-  // Get project details
-  const { data: project } = await supabase
+  // Get project details (using service client to bypass RLS for user profile queries)
+  const serviceSupabase = await createServiceClient()
+  const { data: project } = await serviceSupabase
     .from('projects')
     .select('*, tutors!inner(users!inner(name))')
     .eq('id', id)
     .single()
 
-  if (!project) redirect('/student/projects')
+  if (!project || project.school_id !== student.school_id) redirect('/student/projects')
+  if (project.class_grade !== 'ALL' && project.class_grade !== student.class_grade) redirect('/student/projects')
 
   // Get student's submission if any
   const { data: submission } = await supabase

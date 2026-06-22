@@ -16,6 +16,13 @@ interface ProjectWithSchool extends Project {
 export function ProjectsClient({ projects: initialProjects, assignments, tutorId, pendingSubmissions: initialPendingSubmissions }: any) {
   const router = useRouter()
   const supabase = createClient()
+  const uniqueSchools = Array.from(
+    new Map(
+      assignments
+        .filter((a: any) => a.schools)
+        .map((a: any) => [a.schools.id, a.schools])
+    ).values()
+  )
   const [projects, setProjects] = useState<ProjectWithSchool[]>(initialProjects)
   const [pendingSubmissions, setPendingSubmissions] = useState<any[]>(initialPendingSubmissions ?? [])
   const [activeTab, setActiveTab] = useState<'projects' | 'evaluations'>('projects')
@@ -25,7 +32,8 @@ export function ProjectsClient({ projects: initialProjects, assignments, tutorId
   const [gradeForm, setGradeForm] = useState({ marks: '', feedback: '' })
 
   const [form, setForm] = useState({
-    assignment_id: '',
+    school_id: '',
+    class_grade: '',
     section: '',
     title: '',
     description: '',
@@ -34,15 +42,13 @@ export function ProjectsClient({ projects: initialProjects, assignments, tutorId
   })
 
   const handleAddProject = async () => {
-    if (!form.assignment_id || !form.title || !form.due_date) return
+    if (!form.school_id || !form.title || !form.due_date) return
     setLoading(true)
 
-    const assignment = assignments.find((a: any) => a.id === form.assignment_id)
-    
     const { data, error } = await supabase.from('projects').insert({
       tutor_id: tutorId,
-      school_id: assignment.school_id,
-      class_grade: assignment.class_grade,
+      school_id: form.school_id,
+      class_grade: form.class_grade || 'ALL',
       section: form.section || null,
       title: form.title,
       description: form.description,
@@ -54,7 +60,7 @@ export function ProjectsClient({ projects: initialProjects, assignments, tutorId
       setProjects([data as ProjectWithSchool, ...projects])
       toast('Project created successfully', 'success')
       setAddOpen(false)
-      setForm({ assignment_id: '', section: '', title: '', description: '', due_date: '', max_marks: 100 })
+      setForm({ school_id: '', class_grade: '', section: '', title: '', description: '', due_date: '', max_marks: 100 })
     } else {
       toast(error?.message || 'Failed to create project', 'error')
     }
@@ -170,7 +176,11 @@ export function ProjectsClient({ projects: initialProjects, assignments, tutorId
                     {project.description}
                   </p>
                   <div className="flex items-center justify-between text-xs font-medium text-slate-600 mt-auto pt-4 border-t border-slate-100">
-                    <span className="flex items-center gap-1.5"><BookOpen size={14} /> Grade {project.class_grade} {project.section && `- Sec ${project.section}`}</span>
+                    <span className="flex items-center gap-1.5">
+                      <BookOpen size={14} />
+                      {project.class_grade === 'ALL' ? 'All Classes' : `Grade ${project.class_grade}`}
+                      {project.section && project.class_grade !== 'ALL' && ` - Sec ${project.section}`}
+                    </span>
                     <span>Max: {project.max_marks} pts</span>
                   </div>
                 </CardContent>
@@ -233,7 +243,7 @@ export function ProjectsClient({ projects: initialProjects, assignments, tutorId
                             submission_id: sub.id,
                             student: { name: sub.students.users.name, email: sub.students.users.email },
                             file_url: sub.file_url,
-                            remarks: sub.remarks,
+                            remarks: sub.notes,
                             project: { title: sub.projects.title, max_marks: sub.projects.max_marks }
                           })
                           setGradeForm({
@@ -256,19 +266,34 @@ export function ProjectsClient({ projects: initialProjects, assignments, tutorId
       {/* Create Project Dialog */}
       <Dialog open={addOpen} onClose={() => setAddOpen(false)} title="Create New Project">
         <div className="space-y-4">
-          <FormField label="Assign to Class" required>
-            <Select value={form.assignment_id} onChange={(e) => setForm({ ...form, assignment_id: e.target.value })}>
-              <option value="">Select class assignment...</option>
-              {assignments.map((a: any) => (
-                <option key={a.id} value={a.id}>
-                  {a.schools.name} — {a.subject} (Grade {a.class_grade})
+          <FormField label="Select School" required>
+            <Select value={form.school_id} onChange={(e) => setForm({ ...form, school_id: e.target.value, class_grade: '' })}>
+              <option value="">Select school...</option>
+              {uniqueSchools.map((school: any) => (
+                <option key={school.id} value={school.id}>
+                  {school.name}
+                </option>
+              ))}
+            </Select>
+          </FormField>
+
+          <FormField label="Select Class (Optional)">
+            <Select 
+              value={form.class_grade} 
+              onChange={(e) => setForm({ ...form, class_grade: e.target.value })}
+              disabled={!form.school_id}
+            >
+              <option value="">All Classes (Assign to all students in school)</option>
+              {Array.from(new Set(assignments.filter((a: any) => a.school_id === form.school_id).map((a: any) => a.class_grade))).sort().map((c: any) => (
+                <option key={c} value={c}>
+                  Grade {c}
                 </option>
               ))}
             </Select>
           </FormField>
           
           <FormField label="Specific Section (Optional)">
-            <Input placeholder="e.g. A" value={form.section} onChange={(e) => setForm({ ...form, section: e.target.value })} />
+            <Input placeholder="e.g. A" value={form.section} onChange={(e) => setForm({ ...form, section: e.target.value })} disabled={!form.class_grade || form.class_grade === ''} />
             <p className="text-xs text-slate-400 mt-1">Leave blank to assign to all sections</p>
           </FormField>
 
@@ -295,7 +320,7 @@ export function ProjectsClient({ projects: initialProjects, assignments, tutorId
           </div>
 
           <div className="flex gap-3 pt-4">
-            <Button className="flex-1" onClick={handleAddProject} loading={loading} disabled={!form.assignment_id || !form.title || !form.due_date}>
+            <Button className="flex-1" onClick={handleAddProject} loading={loading} disabled={!form.school_id || !form.title || !form.due_date}>
               Create Project
             </Button>
             <Button variant="outline" onClick={() => setAddOpen(false)}>Cancel</Button>

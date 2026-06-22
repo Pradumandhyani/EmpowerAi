@@ -34,7 +34,7 @@ export async function updateSession(request: NextRequest) {
 
   const path = request.nextUrl.pathname
 
-  if (path === '/' || path.startsWith('/login') || path.startsWith('/register-school') || path.startsWith('/student-signup') || path.startsWith('/api/')) {
+  if (path === '/' || path.startsWith('/login') || path.startsWith('/register-school') || path.startsWith('/student-signup') || path.startsWith('/change-password') || path.startsWith('/api/')) {
     return supabaseResponse
   }
 
@@ -53,6 +53,11 @@ export async function updateSession(request: NextRequest) {
       school_admin: ['school-admin'],
       tutor: ['tutor'],
       student: ['student']
+    }
+
+    const impersonatingSchoolId = request.cookies.get('impersonate_school_id')?.value
+    if (profile.role === 'super_admin' && impersonatingSchoolId) {
+      allowedPrefixes.super_admin.push('school-admin')
     }
 
     if (allowedPrefixes[profile.role] && !allowedPrefixes[profile.role].includes(currentPrefix)) {

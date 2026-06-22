@@ -111,7 +111,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: createUserError.message }, { status: 400 })
     }
 
-    // 8. Send approval email with credentials
+    // 7.5 Generate password setup link (recovery link)
+    const { data: linkData, error: linkError } = await serviceSupabase.auth.admin.generateLink({
+      type: 'recovery',
+      email: school.contact_email,
+      options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback?next=/change-password`
+      }
+    })
+
+    if (linkError) {
+      // Rollback school status and delete the created auth user
+      await serviceSupabase.auth.admin.deleteUser(authData.user.id)
+      await serviceSupabase.from('schools').update({ status: 'pending' }).eq('id', schoolId)
+      return NextResponse.json({ error: linkError.message }, { status: 400 })
+    }
+
+    const setupLink = linkData.properties.action_link
+
+    // 8. Send approval email with secure setup link
     try {
       await resend.emails.send({
         from: FROM_EMAIL,
@@ -121,7 +139,7 @@ export async function POST(request: NextRequest) {
           contactName,
           schoolName: school.name,
           email: school.contact_email,
-          tempPassword,
+          setupLink,
         }),
       })
     } catch (emailError) {

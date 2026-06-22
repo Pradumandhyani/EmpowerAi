@@ -77,6 +77,24 @@ export function SchoolsClient({ schools: initialSchools, initialFilter }: { scho
     }
   }
 
+  const handleImpersonate = async (schoolId: string) => {
+    try {
+      const res = await fetch('/api/admin/impersonate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ schoolId }),
+      })
+      const result = await res.json()
+      if (res.ok) {
+        window.location.href = '/school-admin'
+      } else {
+        toast(result.error || 'Failed to impersonate', 'error')
+      }
+    } catch {
+      toast('Network error. Please try again.', 'error')
+    }
+  }
+
   const handleUpdateSchool = async () => {
     if (!editSchool) return
     setLoading(true)
@@ -219,9 +237,14 @@ export function SchoolsClient({ schools: initialSchools, initialFilter }: { scho
                           </Button>
                         )}
                         {school.status === 'approved' && (
-                          <Button size="sm" variant="destructive" onClick={() => handleSuspend(school.id)}>
-                            <XCircle size={14} /> Suspend
-                          </Button>
+                          <>
+                            <Button size="sm" variant="outline" className="text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 border-indigo-200" onClick={() => handleImpersonate(school.id)}>
+                              Login as School
+                            </Button>
+                            <Button size="sm" variant="destructive" onClick={() => handleSuspend(school.id)}>
+                              <XCircle size={14} /> Suspend
+                            </Button>
+                          </>
                         )}
                         <Button size="icon" variant="ghost" onClick={() => openEdit(school)}>
                           <Edit2 size={14} />

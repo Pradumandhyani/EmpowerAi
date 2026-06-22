@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { DashboardShell } from '@/components/layout/DashboardShell'
 import { StudentDashboardClient } from './StudentDashboardClient'
 import type { Metadata } from 'next'
@@ -22,12 +22,13 @@ export default async function StudentPage() {
 
   if (!student) redirect('/login')
 
-  // Get active projects for this student's grade/section
-  const { data: projects } = await supabase
+  // Get active projects for this student's grade/section (using service client to bypass RLS for user profile queries)
+  const serviceSupabase = await createServiceClient()
+  const { data: projects } = await serviceSupabase
     .from('projects')
     .select('id, title, due_date, max_marks, tutors!inner(users!inner(name))')
     .eq('school_id', profile.school_id)
-    .eq('class_grade', student.class_grade)
+    .or(`class_grade.eq.${student.class_grade},class_grade.eq.ALL`)
     .or(`section.eq.${student.section},section.is.null`)
     .order('due_date', { ascending: true })
     .limit(5)

@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { cookies } from 'next/headers'
 import { DashboardShell } from '@/components/layout/DashboardShell'
 import { StatCard } from '@/components/ui'
 import { Users, BookOpen, Calendar, TrendingUp } from 'lucide-react'
@@ -13,9 +14,16 @@ export default async function SchoolAdminPage() {
   if (!user) redirect('/login')
 
   const { data: profile } = await supabase.from('users').select('name, role, school_id').eq('id', user.id).single()
-  if (profile?.role !== 'school_admin' || !profile?.school_id) redirect('/login')
+  
+  const cookieStore = await cookies()
+  const impersonatedSchoolId = cookieStore.get('impersonate_school_id')?.value
+  const isImpersonating = profile?.role === 'super_admin' && impersonatedSchoolId
 
-  const schoolId = profile.school_id
+  if (!isImpersonating && (profile?.role !== 'school_admin' || !profile?.school_id)) {
+    redirect('/login')
+  }
+
+  const schoolId = isImpersonating ? impersonatedSchoolId : profile.school_id!
 
   const [
     { data: school },

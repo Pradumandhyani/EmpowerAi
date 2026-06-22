@@ -23,7 +23,9 @@ export async function POST(request: Request) {
       user_metadata: {
         name,
         role: 'student',
+        schoolId,
         school_id: schoolId,
+        classGrade,
         class_grade: classGrade,
         section: section || null,
       }
