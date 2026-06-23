@@ -55,19 +55,31 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="w-full max-w-md">
+    <div className="w-full max-w-md animate-in">
       {/* Card */}
-      <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 p-8 shadow-2xl">
+      <div
+        className="rounded-3xl p-8 shadow-2xl"
+        style={{
+          background: 'rgba(255,255,255,0.05)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          boxShadow: '0 32px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1)',
+        }}
+      >
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-white mb-2">Welcome back</h1>
-          <p className="text-slate-300 text-sm">Sign in to your empowerAiResearch account</p>
+          <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-xl mb-4 glow-indigo">
+            <Lock className="text-white" size={24} />
+          </div>
+          <h1 className="text-2xl font-black text-white mb-1.5">Welcome back</h1>
+          <p className="text-slate-400 text-sm">Sign in to your empowerAiResearch account</p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-5">
+        <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-slate-200">Email address</label>
+            <label className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Email address</label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
               <input
                 id="email"
                 type="email"
@@ -75,15 +87,21 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@school.com"
                 required
-                className="w-full h-11 pl-10 pr-4 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all"
+                className="w-full h-12 pl-11 pr-4 rounded-xl text-white placeholder:text-slate-600 text-sm focus:outline-none transition-all"
+                style={{
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                }}
+                onFocus={(e) => { e.target.style.border = '1px solid rgba(99,102,241,0.6)'; e.target.style.background = 'rgba(99,102,241,0.08)' }}
+                onBlur={(e) => { e.target.style.border = '1px solid rgba(255,255,255,0.1)'; e.target.style.background = 'rgba(255,255,255,0.06)' }}
               />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-slate-200">Password</label>
+            <label className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Password</label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
               <input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
@@ -91,12 +109,18 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 required
-                className="w-full h-11 pl-10 pr-11 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all"
+                className="w-full h-12 pl-11 pr-12 rounded-xl text-white placeholder:text-slate-600 text-sm focus:outline-none transition-all"
+                style={{
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                }}
+                onFocus={(e) => { e.target.style.border = '1px solid rgba(99,102,241,0.6)'; e.target.style.background = 'rgba(99,102,241,0.08)' }}
+                onBlur={(e) => { e.target.style.border = '1px solid rgba(255,255,255,0.1)'; e.target.style.background = 'rgba(255,255,255,0.06)' }}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
               >
                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
@@ -104,8 +128,8 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <div className="bg-red-500/20 border border-red-500/30 rounded-lg px-4 py-3">
-              <p className="text-red-300 text-sm">{error}</p>
+            <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)' }}>
+              <p className="text-red-400 text-sm">{error}</p>
             </div>
           )}
 
@@ -113,31 +137,33 @@ export default function LoginPage() {
             id="login-submit"
             type="submit"
             disabled={loading}
-            className="w-full h-11 bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-semibold rounded-lg hover:from-indigo-600 hover:to-violet-700 transition-all active:scale-95 disabled:opacity-60 flex items-center justify-center gap-2"
+            className="w-full h-12 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold rounded-xl hover:from-indigo-500 hover:to-violet-500 transition-all hover:-translate-y-px active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2.5 text-sm shadow-xl shadow-indigo-900/40 mt-2"
           >
             {loading ? (
-              <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-            ) : null}
-            {loading ? 'Signing in...' : 'Sign in'}
+              <>
+                <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+                Signing in...
+              </>
+            ) : 'Sign In →'}
           </button>
         </form>
 
-        <div className="mt-6 pt-6 border-t border-white/10 text-center">
-          <p className="text-slate-400 text-sm">
+        <div className="mt-6 pt-5 text-center" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+          <p className="text-slate-500 text-sm">
             Want to register your school?{' '}
-            <Link href="/register-school" className="text-indigo-400 hover:text-indigo-300 font-medium">
+            <Link href="/register-school" className="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors">
               Apply here
             </Link>
           </p>
         </div>
 
-        {/* Role hint for demo */}
-        <div className="mt-4 bg-white/5 rounded-lg p-4">
-          <p className="text-xs text-slate-400 font-medium mb-2">All roles use the same login page</p>
-          <div className="grid grid-cols-2 gap-1.5 text-xs text-slate-400">
+        {/* Role hint */}
+        <div className="mt-4 rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
+          <p className="text-[11px] text-slate-500 font-semibold uppercase tracking-wider mb-2">All roles use the same login</p>
+          <div className="grid grid-cols-2 gap-1.5 text-xs text-slate-500">
             <span>🔑 Super Admin</span>
             <span>🏫 School Admin</span>
             <span>👩‍🏫 Tutor</span>

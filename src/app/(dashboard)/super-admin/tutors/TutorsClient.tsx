@@ -201,7 +201,7 @@ export function TutorsClient({
       <Dialog open={addOpen} onClose={() => setAddOpen(false)} title="Add New Tutor">
         <div className="space-y-4">
           <FormField label="Full Name" required><Input placeholder="Dr. Anita Kumar" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} /></FormField>
-          <FormField label="Email" required><Input type="email" placeholder="anita@educonnect.com" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} /></FormField>
+          <FormField label="Email" required><Input type="email" placeholder="anita@empowerairesearch.com" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} /></FormField>
           <FormField label="Phone"><Input type="tel" placeholder="+91 98765 43210" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} /></FormField>
           <FormField label="Subjects (comma-separated)" required>
             <Input placeholder="Mathematics, Physics, Chemistry" value={form.subjects} onChange={e => setForm({ ...form, subjects: e.target.value })} />

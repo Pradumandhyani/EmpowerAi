@@ -42,27 +42,30 @@ export function MobileDashboardShell({
   }, [sidebarOpen])
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ background: '#f0f2f8' }}>
+      {/* Optional impersonating banner */}
       {impersonatingBanner}
 
-      {/* Mobile Sidebar Overlay */}
+      {/* Mobile Overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 lg:hidden"
+          style={{ background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)' }}
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Mobile Sidebar Drawer */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 lg:hidden transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-y-0 left-0 z-50 lg:hidden transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* Close button inside the drawer */}
+        {/* Close Button */}
         <button
           onClick={() => setSidebarOpen(false)}
-          className="absolute top-4 right-[-44px] z-50 h-9 w-9 rounded-full bg-white shadow-md flex items-center justify-center text-slate-600 hover:text-slate-900"
+          className="absolute top-3 right-[-46px] z-50 h-10 w-10 rounded-full flex items-center justify-center text-white transition-all hover:bg-white/20"
+          style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', backdropFilter: 'blur(10px)' }}
           aria-label="Close menu"
         >
           <X size={18} />
@@ -70,14 +73,14 @@ export function MobileDashboardShell({
         <Sidebar role={role} onNavigate={() => setSidebarOpen(false)} />
       </div>
 
-      {/* Main layout */}
+      {/* Main Layout */}
       <div className="flex-1 flex">
-        {/* Desktop Sidebar (always visible on lg+) */}
-        <div className="hidden lg:block">
+        {/* Desktop Sidebar */}
+        <div className="hidden lg:flex lg:flex-col lg:shrink-0">
           <Sidebar role={role} />
         </div>
 
-        {/* Content area */}
+        {/* Content */}
         <div className="flex-1 flex flex-col min-w-0">
           <MobileTopbar
             userName={userName}
@@ -85,7 +88,7 @@ export function MobileDashboardShell({
             pageTitle={pageTitle}
             onMenuClick={() => setSidebarOpen(true)}
           />
-          <main className="flex-1 p-4 sm:p-6 overflow-y-auto">
+          <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
             <div className="max-w-7xl mx-auto">
               {children}
             </div>
