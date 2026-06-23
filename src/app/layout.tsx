@@ -10,15 +10,15 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'EduConnect — Smarter School Tutoring',
-    template: '%s | EduConnect',
+    default: 'empowerAiResearch — Smarter School Tutoring',
+    template: '%s | empowerAiResearch',
   },
   description:
-    'EduConnect connects schools with professional tutors. Manage students, classes, projects, and grades — all in one place.',
-  keywords: ['tutoring', 'school management', 'online education', 'student portal', 'EduConnect'],
+    'empowerAiResearch connects schools with professional tutors. Manage students, classes, projects, and grades — all in one place.',
+  keywords: ['tutoring', 'school management', 'online education', 'student portal', 'empowerAiResearch'],
   openGraph: {
-    title: 'EduConnect — Smarter School Tutoring',
-    description: 'Connect your school with professional tutors on the EduConnect platform.',
+    title: 'empowerAiResearch — Smarter School Tutoring',
+    description: 'Connect your school with professional tutors on the empowerAiResearch platform.',
     type: 'website',
     locale: 'en_IN',
   },

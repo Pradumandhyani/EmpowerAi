@@ -60,7 +60,7 @@ export default function LoginPage() {
       <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 p-8 shadow-2xl">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-white mb-2">Welcome back</h1>
-          <p className="text-slate-300 text-sm">Sign in to your EduConnect account</p>
+          <p className="text-slate-300 text-sm">Sign in to your empowerAiResearch account</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-5">

@@ -68,7 +68,7 @@ export default function RegisterSchoolPage() {
           </div>
           <h2 className="text-2xl font-bold text-white mb-3">Application Submitted!</h2>
           <p className="text-slate-300 text-sm leading-relaxed mb-6">
-            Thank you for your interest in EduConnect. Our team will review your application and reach out within 2 business days.
+            Thank you for your interest in empowerAiResearch. Our team will review your application and reach out within 2 business days.
           </p>
           <Link
             href="/login"
@@ -86,7 +86,7 @@ export default function RegisterSchoolPage() {
       <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 p-8 shadow-2xl">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-white mb-2">Register Your School</h1>
-          <p className="text-slate-300 text-sm">Apply to join the EduConnect platform</p>
+          <p className="text-slate-300 text-sm">Apply to join the empowerAiResearch platform</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">

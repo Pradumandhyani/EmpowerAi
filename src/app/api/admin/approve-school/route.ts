@@ -134,7 +134,7 @@ export async function POST(request: NextRequest) {
       await resend.emails.send({
         from: FROM_EMAIL,
         to: school.contact_email,
-        subject: `🎉 Your school "${school.name}" has been approved on EduConnect!`,
+        subject: `🎉 Your school "${school.name}" has been approved on empowerAiResearch!`,
         html: SchoolApprovedEmail({
           contactName,
           schoolName: school.name,

@@ -18,7 +18,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg">
           <GraduationCap className="text-white" size={18} />
         </div>
-        <span className="text-xl font-bold text-white tracking-tight">EduConnect</span>
+        <span className="text-xl font-bold text-white tracking-tight">empowerAiResearch</span>
       </header>
 
       {/* Content */}
@@ -27,7 +27,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       </div>
 
       <footer className="relative z-10 text-center py-6 text-slate-500 text-sm">
-        © 2024 EduConnect. All rights reserved.
+        © 2024 empowerAiResearch. All rights reserved.
       </footer>
     </div>
   )

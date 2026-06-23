@@ -1,72 +1,88 @@
 import Link from 'next/link'
-import { GraduationCap, ArrowRight, ShieldCheck, Zap, Users, BookOpen, Code, Sparkles } from 'lucide-react'
+import { GraduationCap, ArrowRight, ShieldCheck, Zap, Users, BookOpen, Code, Sparkles, Globe, Brain, Shield, Cpu, Database, Smartphone } from 'lucide-react'
 
 export default function LandingPage() {
-  const students = [
+  const skills = [
     {
-      name: 'Aarav Mehta',
-      grade: '9th Grade',
-      subject: 'Python Basics',
-      school: 'Global International School',
-      image: '/images/students/student-9a.jpg',
-      color: 'from-blue-500 to-indigo-500'
+      title: 'Web Development',
+      level: 'Beginner to Advanced',
+      desc: 'HTML, CSS, JavaScript, React & full-stack frameworks to build modern web applications.',
+      color: 'from-blue-500 to-indigo-600',
+      bg: 'bg-blue-50',
+      border: 'border-blue-100',
+      iconColor: 'text-blue-600',
+      icon: Globe,
     },
     {
-      name: 'Sarah Jenkins',
-      grade: '9th Grade',
-      subject: 'Web Development (HTML/CSS)',
-      school: 'Oakridge Academy',
-      image: '/images/students/student-9b.jpg',
-      color: 'from-pink-500 to-rose-500'
+      title: 'Artificial Intelligence',
+      level: 'Intermediate',
+      desc: 'Fundamentals of AI, prompt engineering, LLMs, and building intelligent applications.',
+      color: 'from-violet-500 to-purple-600',
+      bg: 'bg-violet-50',
+      border: 'border-violet-100',
+      iconColor: 'text-violet-600',
+      icon: Brain,
     },
     {
-      name: 'Chloe Dupont',
-      grade: '10th Grade',
-      subject: 'JavaScript Fundamentals',
-      school: 'Riverdale High',
-      image: '/images/students/student-10a.jpg',
-      color: 'from-amber-500 to-orange-500'
+      title: 'Machine Learning',
+      level: 'Intermediate to Advanced',
+      desc: 'Supervised & unsupervised learning, neural networks, model training and evaluation.',
+      color: 'from-emerald-500 to-teal-600',
+      bg: 'bg-emerald-50',
+      border: 'border-emerald-100',
+      iconColor: 'text-emerald-600',
+      icon: Cpu,
     },
     {
-      name: 'Kenji Sato',
-      grade: '10th Grade',
-      subject: 'Scratch & Game Dev',
-      school: 'Global International School',
-      image: '/images/students/student-10b.jpg',
-      color: 'from-emerald-500 to-teal-500'
+      title: 'Ethical Hacking',
+      level: 'Intermediate',
+      desc: 'Penetration testing, vulnerability assessment, network security, and CTF challenges.',
+      color: 'from-rose-500 to-red-600',
+      bg: 'bg-rose-50',
+      border: 'border-rose-100',
+      iconColor: 'text-rose-600',
+      icon: Shield,
     },
     {
-      name: 'Priya Patel',
-      grade: '11th Grade',
-      subject: 'Data Structures & Algorithmic Thinking',
-      school: 'Oakridge Academy',
-      image: '/images/students/student-11a.jpg',
-      color: 'from-purple-500 to-indigo-500'
+      title: 'Data Science',
+      level: 'Beginner to Advanced',
+      desc: 'Python, Pandas, data visualisation, statistical analysis, and real-world datasets.',
+      color: 'from-amber-500 to-orange-600',
+      bg: 'bg-amber-50',
+      border: 'border-amber-100',
+      iconColor: 'text-amber-600',
+      icon: Database,
     },
     {
-      name: 'Mateo Rodriguez',
-      grade: '11th Grade',
-      subject: 'React Frontend Applications',
-      school: 'Riverdale High',
-      image: '/images/students/student-11b.jpg',
-      color: 'from-cyan-500 to-blue-500'
+      title: 'App Development',
+      level: 'Beginner to Advanced',
+      desc: 'Build Android & iOS apps using React Native, Flutter, and modern mobile frameworks.',
+      color: 'from-cyan-500 to-sky-600',
+      bg: 'bg-cyan-50',
+      border: 'border-cyan-100',
+      iconColor: 'text-cyan-600',
+      icon: Smartphone,
     },
     {
-      name: 'Liam O\'Connor',
-      grade: '12th Grade',
-      subject: 'AI & Machine Learning Intro',
-      school: 'Oakridge Academy',
-      image: '/images/students/student-12a.jpg',
-      color: 'from-violet-500 to-purple-500'
+      title: 'Python Programming',
+      level: 'Beginner',
+      desc: 'Core Python syntax, OOP, scripting, automation, and project-based coding exercises.',
+      color: 'from-yellow-400 to-amber-500',
+      bg: 'bg-yellow-50',
+      border: 'border-yellow-100',
+      iconColor: 'text-yellow-600',
+      icon: Code,
     },
     {
-      name: 'Aisha Al-Mansoor',
-      grade: '12th Grade',
-      subject: 'Database Design & SQL',
-      school: 'Global International School',
-      image: '/images/students/student-12b.jpg',
-      color: 'from-fuchsia-500 to-pink-500'
-    }
+      title: 'Cloud Computing',
+      level: 'Intermediate',
+      desc: 'AWS, GCP & Azure fundamentals, serverless architecture, and cloud-native deployment.',
+      color: 'from-indigo-500 to-blue-600',
+      bg: 'bg-indigo-50',
+      border: 'border-indigo-100',
+      iconColor: 'text-indigo-600',
+      icon: Zap,
+    },
   ]
 
   return (
@@ -78,7 +94,7 @@ export default function LandingPage() {
             <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center">
               <GraduationCap className="text-white" size={18} />
             </div>
-            <span className="text-xl font-bold text-slate-900 tracking-tight">EduConnect</span>
+            <span className="text-xl font-bold text-slate-900 tracking-tight">empowerAiResearch</span>
           </div>
           <div className="flex gap-3 items-center">
             <Link href="/login" className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
@@ -128,69 +144,48 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Student Cards Section */}
+      {/* Skills Section */}
       <section className="py-24 bg-slate-50 px-6 border-t border-slate-100">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 font-medium text-sm border border-emerald-100 mb-4">
-              <Sparkles size={14} /> Meet Our Coding Pioneers
+              <Sparkles size={14} /> Cutting-Edge Skill Tracks
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              Empowering Students Across Grades 9–12
+              Skills We Teach
             </h2>
             <p className="text-slate-500 max-w-2xl mx-auto text-lg">
-              Our students learn real-world coding skills, build projects, and collaborate with experienced tutors. Here is a glimpse of our top performers.
+              From foundational coding to advanced AI and cybersecurity — our curriculum is built for the skills that matter most in today's world.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {students.map((student, idx) => (
-              <div
-                key={idx}
-                className="group relative bg-white rounded-2xl overflow-hidden border border-slate-100 hover:border-slate-200 hover:shadow-xl transition-all duration-300 flex flex-col hover:-translate-y-1"
-              >
-                {/* Image / Header gradient fallback */}
-                <div className="relative h-48 bg-slate-100 overflow-hidden flex items-center justify-center">
-                  <div className={`absolute inset-0 bg-gradient-to-tr ${student.color} opacity-90 transition-opacity group-hover:opacity-100`} />
-                  {/* Aspect-ratio helper for real images, else show initials icon */}
-                  <img
-                    src={student.image}
-                    alt={student.name}
-                    className="w-full h-full object-cover mix-blend-overlay opacity-80"
-                  />
-                  <div className="absolute inset-0 flex flex-col justify-end p-4 text-white bg-gradient-to-t from-slate-950/80 to-transparent">
-                    <span className="px-2.5 py-1 text-xs font-semibold bg-white/20 backdrop-blur-md rounded-full w-fit">
-                      {student.grade}
-                    </span>
-                    <h3 className="text-lg font-bold mt-1.5 leading-tight">{student.name}</h3>
-                  </div>
-                </div>
-
-                <div className="p-5 flex-1 flex flex-col justify-between">
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-2">
-                      <Code className="text-slate-400 mt-1 flex-shrink-0" size={16} />
-                      <div>
-                        <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Focus Subject</p>
-                        <p className="text-sm font-medium text-slate-800">{student.subject}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <GraduationCap className="text-slate-400 mt-1 flex-shrink-0" size={16} />
-                      <div>
-                        <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">School</p>
-                        <p className="text-sm text-slate-600">{student.school}</p>
-                      </div>
-                    </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {skills.map((skill, idx) => {
+              const Icon = skill.icon
+              return (
+                <div
+                  key={idx}
+                  className={`group relative bg-white rounded-2xl overflow-hidden border ${skill.border} hover:border-slate-200 hover:shadow-xl transition-all duration-300 flex flex-col hover:-translate-y-1`}
+                >
+                  {/* Gradient Header */}
+                  <div className={`relative h-36 bg-gradient-to-br ${skill.color} flex items-center justify-center`}>
+                    <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-white to-transparent" />
+                    <Icon size={48} className="text-white/90 drop-shadow-md" />
                   </div>
 
-                  <div className="mt-5 pt-4 border-t border-slate-50 flex items-center justify-between text-xs font-medium text-indigo-600 group-hover:text-indigo-700">
-                    <span>View Projects</span>
-                    <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
+                  {/* Card Body */}
+                  <div className="p-5 flex-1 flex flex-col">
+                    <div className="mb-2">
+                      <span className={`inline-block px-2.5 py-0.5 text-xs font-semibold rounded-full ${skill.bg} ${skill.iconColor} border ${skill.border} mb-2`}>
+                        {skill.level}
+                      </span>
+                      <h3 className="text-base font-bold text-slate-900 leading-tight">{skill.title}</h3>
+                    </div>
+                    <p className="text-sm text-slate-500 leading-relaxed flex-1">{skill.desc}</p>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
@@ -238,9 +233,9 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
             <GraduationCap className="text-indigo-400" size={24} />
-            <span className="text-xl font-bold text-white">EduConnect</span>
+            <span className="text-xl font-bold text-white">empowerAiResearch</span>
           </div>
-          <p>© 2024 EduConnect Platform. All rights reserved.</p>
+          <p>© empowerAiResearch Platform. All rights reserved.</p>
         </div>
       </footer>
     </div>

@@ -1,7 +1,7 @@
 export function WelcomeStudentEmail({ studentName, email, password, schoolName }: any) {
   return `
     <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-      <h2>Welcome to EduConnect, ${studentName}!</h2>
+      <h2>Welcome to empowerAiResearch, ${studentName}!</h2>
       <p>Your school, ${schoolName}, has added you to their platform.</p>
       <p>Here are your login details:</p>
       <ul>
@@ -49,7 +49,7 @@ export function SchoolApprovedEmail({ contactName, schoolName, email, setupLink 
       </div>
       <div style="padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 12px 12px;">
         <p style="color: #374151; font-size: 16px;">Hello <strong>${contactName}</strong>,</p>
-        <p style="color: #374151;">Congratulations! <strong>${schoolName}</strong> has been approved on the EduConnect platform. Your admin account is now ready.</p>
+        <p style="color: #374151;">Congratulations! <strong>${schoolName}</strong> has been approved on the empowerAiResearch platform. Your admin account is now ready.</p>
 
         <div style="background-color: #f3f4f6; border-left: 4px solid #4f46e5; padding: 20px; border-radius: 0 8px 8px 0; margin: 24px 0;">
           <p style="margin: 0 0 10px; color: #374151; font-weight: 600;">🔐 Your Account Details</p>

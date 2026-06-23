@@ -37,7 +37,7 @@ export function Sidebar({ role }: { role: keyof typeof navLinks }) {
         <div className="h-8 w-8 rounded-lg bg-indigo-500 flex items-center justify-center">
           <GraduationCap className="text-white" size={18} />
         </div>
-        <span className="font-bold text-white tracking-tight">EduConnect</span>
+        <span className="font-bold text-white tracking-tight">empowerAiResearch</span>
       </div>
 
       <nav className="flex-1 py-6 px-4 space-y-1">
