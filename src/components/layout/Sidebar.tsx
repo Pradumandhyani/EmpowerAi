@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { GraduationCap, LayoutDashboard, Users, BookOpen, Settings, Building2, UserCircle } from 'lucide-react'
+import { GraduationCap, LayoutDashboard, Users, BookOpen, Settings, Building2, UserCircle, ClipboardList } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navLinks = {
@@ -19,6 +19,7 @@ const navLinks = {
     { name: 'Schedule', href: '/tutor', icon: LayoutDashboard },
     { name: 'Projects', href: '/tutor/projects', icon: BookOpen },
     { name: 'My Students', href: '/tutor/students', icon: Users },
+    { name: 'Attendance', href: '/tutor/attendance', icon: ClipboardList },
   ],
   student: [
     { name: 'Dashboard', href: '/student', icon: LayoutDashboard },
