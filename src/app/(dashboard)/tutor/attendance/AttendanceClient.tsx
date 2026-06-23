@@ -275,32 +275,32 @@ export function AttendanceClient({ assignments, tutorId }: { assignments: Assign
       {loaded && (
         <div className="space-y-4">
           {/* Summary Bar */}
-          <div className="grid grid-cols-3 gap-4">
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-indigo-50 flex items-center justify-center">
-                <Users size={18} className="text-indigo-600" />
+          <div className="grid grid-cols-3 gap-2 sm:gap-4">
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-3 sm:p-4 flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left">
+              <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-indigo-50 flex items-center justify-center shrink-0">
+                <Users size={16} className="text-indigo-600 sm:size-[18px]" />
               </div>
-              <div>
-                <p className="text-xs font-medium text-slate-500">Total</p>
-                <p className="text-xl font-bold text-slate-900">{students.length}</p>
-              </div>
-            </div>
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-emerald-50 flex items-center justify-center">
-                <CheckCircle2 size={18} className="text-emerald-600" />
-              </div>
-              <div>
-                <p className="text-xs font-medium text-slate-500">Present</p>
-                <p className="text-xl font-bold text-emerald-700">{presentCount}</p>
+              <div className="min-w-0">
+                <p className="text-[10px] sm:text-xs font-medium text-slate-500 uppercase tracking-wider">Total</p>
+                <p className="text-sm sm:text-xl font-bold text-slate-900 truncate">{students.length}</p>
               </div>
             </div>
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-red-50 flex items-center justify-center">
-                <XCircle size={18} className="text-red-500" />
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-3 sm:p-4 flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left">
+              <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+                <CheckCircle2 size={16} className="text-emerald-600 sm:size-[18px]" />
               </div>
-              <div>
-                <p className="text-xs font-medium text-slate-500">Absent</p>
-                <p className="text-xl font-bold text-red-600">{absentCount}</p>
+              <div className="min-w-0">
+                <p className="text-[10px] sm:text-xs font-medium text-slate-500 uppercase tracking-wider">Present</p>
+                <p className="text-sm sm:text-xl font-bold text-emerald-700 truncate">{presentCount}</p>
+              </div>
+            </div>
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-3 sm:p-4 flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left">
+              <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-red-50 flex items-center justify-center shrink-0">
+                <XCircle size={16} className="text-red-500 sm:size-[18px]" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[10px] sm:text-xs font-medium text-slate-500 uppercase tracking-wider">Absent</p>
+                <p className="text-sm sm:text-xl font-bold text-red-600 truncate">{absentCount}</p>
               </div>
             </div>
           </div>
@@ -319,29 +319,29 @@ export function AttendanceClient({ assignments, tutorId }: { assignments: Assign
           ) : (
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
               {/* Table Header */}
-              <div className="px-6 py-3 border-b border-slate-100 bg-slate-50/60 flex items-center justify-between">
+              <div className="px-4 py-3 sm:px-6 border-b border-slate-100 bg-slate-50/60 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-2">
-                  <ClipboardList size={16} className="text-indigo-500" />
-                  <span className="text-sm font-semibold text-slate-700">
+                  <ClipboardList size={16} className="text-indigo-500 shrink-0" />
+                  <span className="text-sm font-semibold text-slate-700 truncate">
                     {selectedSchoolName}
                     {selectedGrade ? ` — Grade ${selectedGrade}` : ' — All Classes'}
-                    <span className="ml-2 text-slate-400 font-normal">
+                    <span className="block sm:inline sm:ml-2 text-slate-400 font-normal text-xs sm:text-sm">
                       {new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', {
                         weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'
                       })}
                     </span>
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 w-full sm:w-auto">
                   <button
                     onClick={() => markAll('present')}
-                    className="text-xs font-medium px-3 py-1.5 rounded-lg border border-emerald-200 text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors"
+                    className="flex-1 sm:flex-none text-center text-xs font-medium px-2.5 py-1.5 rounded-lg border border-emerald-200 text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors"
                   >
                     Mark All Present
                   </button>
                   <button
                     onClick={() => markAll('absent')}
-                    className="text-xs font-medium px-3 py-1.5 rounded-lg border border-red-200 text-red-600 bg-red-50 hover:bg-red-100 transition-colors"
+                    className="flex-1 sm:flex-none text-center text-xs font-medium px-2.5 py-1.5 rounded-lg border border-red-200 text-red-600 bg-red-50 hover:bg-red-100 transition-colors"
                   >
                     Mark All Absent
                   </button>
@@ -349,11 +349,11 @@ export function AttendanceClient({ assignments, tutorId }: { assignments: Assign
               </div>
 
               {/* Column Headers */}
-              <div className="grid grid-cols-[auto_1fr_auto_auto] gap-4 px-6 py-2.5 border-b border-slate-100 bg-slate-50/40 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                <span className="w-10 text-center">#</span>
+              <div className="hidden sm:grid sm:grid-cols-[40px_1fr_120px_160px] gap-4 px-6 py-2.5 border-b border-slate-100 bg-slate-50/40 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                <span className="text-center">#</span>
                 <span>Student</span>
-                <span className="w-32 text-center">Class / Roll</span>
-                <span className="w-40 text-center">Attendance</span>
+                <span className="text-center">Class / Roll</span>
+                <span className="text-center">Attendance</span>
               </div>
 
               {/* Student Rows */}
@@ -364,28 +364,43 @@ export function AttendanceClient({ assignments, tutorId }: { assignments: Assign
                   return (
                     <div
                       key={student.id}
-                      className={`grid grid-cols-[auto_1fr_auto_auto] gap-4 px-6 py-3.5 items-center transition-colors ${
+                      className={`flex flex-col gap-3 p-4 sm:grid sm:grid-cols-[40px_1fr_120px_160px] sm:gap-4 sm:px-6 sm:py-3.5 items-center transition-colors ${
                         isPresent ? 'hover:bg-emerald-50/30' : 'hover:bg-red-50/30 bg-red-50/10'
                       }`}
                     >
-                      {/* Index */}
-                      <span className="w-10 text-center text-sm font-medium text-slate-400">
+                      {/* Index (Desktop Only) */}
+                      <span className="hidden sm:block text-center text-sm font-medium text-slate-400">
                         {index + 1}
                       </span>
 
                       {/* Student Info */}
-                      <div className="flex items-center gap-3 min-w-0">
+                      <div className="flex items-center gap-3 w-full sm:w-auto min-w-0">
+                        <span className="sm:hidden text-sm font-semibold text-slate-400 mr-1">
+                          #{index + 1}
+                        </span>
                         <Avatar name={student.users?.name || 'S'} size="md" />
-                        <div className="min-w-0">
-                          <p className="font-semibold text-slate-900 truncate">
+                        <div className="min-w-0 flex-1">
+                          <p className="font-semibold text-slate-900 truncate text-sm sm:text-base">
                             {student.users?.name || 'Unknown'}
                           </p>
                           <p className="text-xs text-slate-400 truncate">{student.users?.email}</p>
+                          {/* Mobile-only Grade & Roll */}
+                          <div className="sm:hidden flex gap-2 mt-1 items-center">
+                            <span className="text-[10px] font-medium text-slate-600 bg-slate-100 px-1.5 py-0.5 rounded">
+                              Grade {student.class_grade}
+                              {student.section ? ` – ${student.section}` : ''}
+                            </span>
+                            {student.roll_number && (
+                              <span className="text-[11px] text-slate-500">
+                                Roll: {student.roll_number}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
 
-                      {/* Class & Roll */}
-                      <div className="w-32 text-center">
+                      {/* Class & Roll (Desktop Only) */}
+                      <div className="hidden sm:block text-center">
                         <p className="text-sm font-medium text-slate-700">
                           Grade {student.class_grade}
                           {student.section ? ` – ${student.section}` : ''}
@@ -396,10 +411,10 @@ export function AttendanceClient({ assignments, tutorId }: { assignments: Assign
                       </div>
 
                       {/* Toggle Buttons */}
-                      <div className="w-40 flex gap-2 justify-center">
+                      <div className="w-full sm:w-auto flex gap-2 justify-center">
                         <button
                           onClick={() => isPresent ? undefined : toggleStatus(student.id)}
-                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
+                          className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-2 sm:py-1.5 rounded-lg text-xs font-semibold border transition-all ${
                             isPresent
                               ? 'bg-emerald-500 text-white border-emerald-500 shadow-sm shadow-emerald-200 scale-105'
                               : 'bg-white text-slate-500 border-slate-200 hover:border-emerald-300 hover:text-emerald-600 hover:bg-emerald-50'
@@ -410,7 +425,7 @@ export function AttendanceClient({ assignments, tutorId }: { assignments: Assign
                         </button>
                         <button
                           onClick={() => !isPresent ? undefined : toggleStatus(student.id)}
-                          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
+                          className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-2 sm:py-1.5 rounded-lg text-xs font-semibold border transition-all ${
                             !isPresent
                               ? 'bg-red-500 text-white border-red-500 shadow-sm shadow-red-200 scale-105'
                               : 'bg-white text-slate-500 border-slate-200 hover:border-red-300 hover:text-red-500 hover:bg-red-50'
@@ -426,8 +441,8 @@ export function AttendanceClient({ assignments, tutorId }: { assignments: Assign
               </div>
 
               {/* Submit Footer */}
-              <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/60 flex items-center justify-between">
-                <p className="text-sm text-slate-500">
+              <div className="px-4 py-4 sm:px-6 border-t border-slate-100 bg-slate-50/60 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm text-slate-500 text-center sm:text-left">
                   <span className="font-semibold text-emerald-600">{presentCount} Present</span>
                   {' · '}
                   <span className="font-semibold text-red-500">{absentCount} Absent</span>
@@ -437,7 +452,7 @@ export function AttendanceClient({ assignments, tutorId }: { assignments: Assign
                   onClick={submitAttendance}
                   loading={submitting}
                   disabled={submitting || students.length === 0}
-                  className="flex items-center gap-2"
+                  className="flex items-center justify-center gap-2 w-full sm:w-auto"
                 >
                   <Send size={15} />
                   {submitting ? 'Saving…' : 'Submit Attendance'}
