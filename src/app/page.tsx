@@ -112,6 +112,39 @@ export default function LandingPage() {
     },
   ]
 
+  const mentors = [
+    {
+      name: 'Mr. Mohit Kumar Sharma',
+      role: 'Computer Science Academician & Researcher',
+      image: '/mohit.jpg',
+      bio: 'Mohit Kumar Sharma is an experienced Computer Science academician and researcher with expertise in AI, Machine Learning, Cloud Computing, IoT, and Cybersecurity. With over a decade of teaching and research experience, he has published extensively, holds multiple patents, and is dedicated to mentoring students and advancing technology-driven education.',
+      tags: ['AI', 'Machine Learning', 'Cloud Computing', 'IoT', 'Cybersecurity'],
+      gradient: 'from-blue-500 via-indigo-500 to-indigo-600',
+      badge: 'bg-blue-500/15 text-blue-300 border-blue-500/30',
+      glow: 'hover:shadow-blue-500/25',
+    },
+    {
+      name: 'Mrs. Prachi Kapoor',
+      role: 'Computer Science Graduate (Honours) & M.Tech Researcher',
+      image: '/prachi.jpg',
+      bio: 'Prachi Kapoor, Computer Science graduate (Honours) and M.Tech researcher with 8+ years of experience in AI, Network Security, and Intelligent Systems. Actively engaged in research on AI-based network security solutions and passionate about technological innovation and lifelong learning.',
+      tags: ['AI', 'Network Security', 'Intelligent Systems', 'Research'],
+      gradient: 'from-violet-500 via-purple-500 to-fuchsia-600',
+      badge: 'bg-violet-500/15 text-violet-300 border-violet-500/30',
+      glow: 'hover:shadow-violet-500/25',
+    },
+    {
+      name: 'Mr. Pradumb Dhyani',
+      role: 'Software Developer & Assistant Professor',
+      image: '/pradumb.jpg',
+      bio: 'Pradumb Dhyani is a Software Developer, Assistant Professor, and competitive programmer specializing in Java, DSA, Web Development, and Data Science. With experience in both industry and academia, he has mentored hundreds of students, developed enterprise software solutions, and solved over 2,500 coding problems, making him passionate about delivering practical, industry-focused technology education.',
+      tags: ['Java', 'DSA', 'Web Dev', 'Data Science', 'Competitive Programming'],
+      gradient: 'from-emerald-500 via-teal-500 to-cyan-600',
+      badge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+      glow: 'hover:shadow-emerald-500/25',
+    }
+  ]
+
   return (
     <div className="min-h-screen font-sans overflow-x-hidden" style={{ background: '#070b14' }}>
 
@@ -389,6 +422,89 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ── Mentors Section ────────────────────────────── */}
+      <section className="py-28 px-4 sm:px-6 relative" style={{ background: '#070b14' }}>
+        {/* Background decoration */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-violet-900/10 rounded-full filter blur-3xl" />
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 text-sm font-semibold mb-5">
+              <Users size={14} />
+              Expert Mentors
+            </div>
+            <h2 className="text-4xl sm:text-5xl font-black text-white mb-4 leading-tight">
+              Meet Our
+              <span className="text-gradient"> Educational Advisors</span>
+            </h2>
+            <p className="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
+              Get guided by experienced software developers, researchers, and technical specialists dedicated to your growth.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {mentors.map((mentor, idx) => (
+              <div
+                key={idx}
+                className={`group flex flex-col h-full rounded-2xl overflow-hidden border border-white/8 hover:border-white/20 transition-all duration-500 ${mentor.glow} hover:shadow-2xl`}
+                style={{ background: 'rgba(255,255,255,0.04)' }}
+              >
+                {/* Card Header Cover */}
+                <div className={`h-24 bg-gradient-to-r ${mentor.gradient} relative opacity-90 group-hover:opacity-100 transition-opacity duration-300`}>
+                  <div
+                    className="absolute inset-0 opacity-[0.08] mix-blend-overlay"
+                    style={{
+                      backgroundImage: `radial-gradient(circle, #fff 10%, transparent 11%)`,
+                      backgroundSize: '12px 12px',
+                    }}
+                  />
+                </div>
+
+                {/* Mentor Avatar */}
+                <div className="px-6 -mt-10 relative z-10 flex justify-between items-end">
+                  <div className="relative w-20 h-20 rounded-2xl overflow-hidden border-4 border-[#070b14] shadow-xl bg-slate-800 flex-shrink-0">
+                    <img
+                      src={mentor.image}
+                      alt={mentor.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  
+                </div>
+
+                {/* Content */}
+                <div className="p-6 pt-4 flex-1 flex flex-col">
+                  <h3 className="font-extrabold text-white text-lg group-hover:text-indigo-400 transition-colors duration-200">
+                    {mentor.name}
+                  </h3>
+                  <p className="text-xs font-semibold text-indigo-300 mt-1 leading-snug">
+                    {mentor.role}
+                  </p>
+                  
+                  <p className="text-sm text-slate-400 mt-4 leading-relaxed flex-1">
+                    {mentor.bio}
+                  </p>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-1.5 mt-5">
+                    {mentor.tags.map((tag, tIdx) => (
+                      <span
+                        key={tIdx}
+                        className={`text-[10px] font-bold border rounded-md px-2 py-0.5 ${mentor.badge}`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA Section ────────────────────────────────── */}
       <section className="py-24 px-4 sm:px-6 relative overflow-hidden" style={{ background: '#0c1020' }}>
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -438,7 +554,7 @@ export default function LandingPage() {
                 empower<span className="text-gradient">Ai</span>Research
               </span>
             </div>
-            <p className="text-slate-500 text-sm">© 2025 empowerAiResearch Platform. All rights reserved.</p>
+            <p className="text-slate-500 text-sm">© empowerAiResearch Platform. All rights reserved.</p>
             <div className="flex gap-6 text-sm text-slate-500">
               <Link href="/login" className="hover:text-slate-300 transition-colors">Sign In</Link>
               <Link href="/register-school" className="hover:text-slate-300 transition-colors">Register School</Link>
